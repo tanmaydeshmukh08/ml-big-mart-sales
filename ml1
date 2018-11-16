@@ -1,0 +1,26 @@
+import pandas as pd
+import numoy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestRegressor
+
+filepath_train = r""
+df_raw = pd.read_csv(filepath_train, low_memory=FALSE, parse_dates=["column_names"], sep="")
+
+# low_memory=FALSE -> Forces it to read more of the file to infer data types
+# parse_dates=["column_names"] -> Pass all the date columns in this.
+
+def display_all(df):
+  with pd.option_context("display.max_rows", 1000, "display.max_columns", 1000)
+return display(df.head())
+
+# To calculate RMSLE, take the log of dependent column so we do not have to take log later
+
+df_raw.dependent_column=np.log(df_raw.dependent_column)
+
+m=RandomForestRegressor()
+m.fit(df_raw.drop("dependent_column", axis=1), df_raw.dependent_column)
+
+
+
+
